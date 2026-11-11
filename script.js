@@ -48,13 +48,13 @@ const CONFIG = {
 
   /* 6. TEKS BERJALAN (MARQUEE) — tambah/kurangi sesuka hati */
   marquee: [
-    "🎒 Belajar Ceria", "📚 Literasi Jalan Terus", "🌟 Guru Hebat",
-    "🤝 Kompak Antar Sekolah", "🏆 Siswa Berprestasi", "💻 Informasi Serba Digital"
+    "💻 Informasi Digital", "📚 Agenda ", "📸 Dokumentasi",
+    "🤝 Senergi",
   ],
 
   /* 7. JUDUL TIAP BAGIAN */
   bagian: {
-    profil:     { stiker: "👋 Kenalan dulu", judul: "Profil Singkat", sub: "" },
+    profil:     { stiker: "👋 Welcome", judul: "Profil Singkat", sub: "" },
     informasi:  { stiker: "📄 Info & Dokumen", judul: "Informasi Terbaru", sub: "Klik tombol untuk membuka dokumennya." },
     pengumuman: { stiker: "📢 Penting!", judul: "Pengumuman", sub: "Jangan sampai ketinggalan ya." },
     galeri:     { stiker: "📸 Seru-seruan", judul: "Galeri Kegiatan", sub: "Cuplikan momen dari sekolah-sekolah kita." },
@@ -63,7 +63,7 @@ const CONFIG = {
 
   /* 8. PROFIL */
   profil: {
-    judul: "Siapa kami?",
+    judul: "Assalamuaikum",
     teks: [
       "Korwil Pendidikan Kecamatan Rejoso adalah kantor yang mengoordinasikan SD di wilayah Kecamatan Rejoso, Kabupaten Nganjuk.",
       "Kami membantu sekolah, guru, dan orang tua mendapat informasi, layanan, dan kegiatan pendidikan dengan lebih mudah."
