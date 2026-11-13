@@ -123,3 +123,6 @@ input[type=file]{padding:8px;background:var(--latar)}
 .sosmed a{font-weight:800;text-decoration:none;padding:6px 14px;border:2px solid #000;border-radius:999px;background:#fff}
 .sm-row{display:grid;grid-template-columns:1fr 2fr auto auto;gap:8px;margin-bottom:8px}
 @media (max-width:768px){.sm-row{grid-template-columns:1fr}}
+
+.logo{display:inline-flex!important;flex-direction:row!important;align-items:center!important;gap:8px}
+.logo .logo-img{display:inline-block!important;height:40px;width:auto;margin:0}
