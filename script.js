@@ -514,7 +514,7 @@ async function muatSosmed() {
 async function renderAdminExtra(box) {
   box.replaceChildren();
   box.insertAdjacentHTML("beforeend", `
-      <h3>Logo situs</h3>
+   <h3>Logo situs</h3>
     <img id="prevLogo" class="logo-img" alt="" hidden>
     <input id="urlLogo" placeholder="Tempel link gambar logo (https://...)">
     <button type="button" id="btnLogo">Simpan logo 💾</button>
@@ -535,7 +535,7 @@ async function renderAdminExtra(box) {
   const { data: st } = await sb.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
   if (st?.value) { q("#prevLogo").src = st.value; q("#prevLogo").hidden = false; }
 
-  q  if (st?.value) q("#urlLogo").value = st.value;
+    if (st?.value) q("#urlLogo").value = st.value;
 
   q("#btnLogo").onclick = async () => {
     const href = urlAman(q("#urlLogo").value.trim());
