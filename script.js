@@ -16,13 +16,13 @@ const CONFIG = {
   },
 
   /* 2. IDENTITAS KANTOR */
-  nama: "KORWIL PENDIDIKAN KECAMATAN REJOSO",
-  namaPanjang: "Kantor Koordinator Wilayah Pendidikan Rejoso",
-  namaSingkat: "Korwil Rejoso",   // tampil di pojok kiri navbar
+  nama: "OPERATOR SEKOLAH SD KECAMATAN REJOSO",
+  namaPanjang: "Forum Diskusi - Berbagi Informasi",
+  namaSingkat: "OPS ROSO",   // tampil di pojok kiri navbar
   logoEmoji: "🏫",
   jenjang: "SD",
-  tagline: "Pusat info SD se-Kecamatan Rejoso. Update, rapi, dan gampang dicari!",
-  deskripsiSEO: "Website resmi Korwil Pendidikan Kecamatan Rejoso, Nganjuk.",
+  tagline: "Landingpage OPS SD se-Kecamatan Rejoso!",
+  deskripsiSEO: "Website resmi Operator Pendidikan Kecamatan Rejoso, Nganjuk.",
 
   /* 3. TOMBOL UTAMA DI HERO */
   tombolHero: { teks: "Portal Informasi", target: "#informasi" },
@@ -31,7 +31,7 @@ const CONFIG = {
      Nomor ditulis diawali 62 tanpa 0 dan tanpa tanda +. Contoh: "6281234567890" */
   whatsapp: {
     nomor: "62",
-    pesan: "Halo admin Korwil Rejoso, saya mau tanya info.",
+    pesan: "Halo admin OPS Rejoso, saya mau tanya info.",
     labelTombol: "Chat Admin"
   },
 
@@ -48,7 +48,7 @@ const CONFIG = {
 
   /* 6. TEKS BERJALAN (MARQUEE) — tambah/kurangi sesuka hati */
   marquee: [
-    "💻 Informasi Digital", "📚 Agenda ", "📸 Dokumentasi",
+    "💻 Salam Satu Data", "📚 Agenda ", "📸 Dokumentasi",
     "🤝 Senergi",
   ],
 
@@ -73,8 +73,8 @@ const CONFIG = {
     /* Angka statistik pengunjung web & data lain (angka boleh diganti manual) */
     statistik: [
       { emoji: "👀", angka: "12.540", label: "Pengunjung web" },
-      { emoji: "🏫", angka: "30", label: "SD binaan" },
-      { emoji: "👩‍🏫", angka: "350", label: "Guru & tenaga pendidik" }
+      { emoji: "🏫", angka: "37", label: "SD Negeri" },
+      { emoji: "👩‍🏫", angka: "37", label: "Operator Sekolah" }
     ],
 
     /* Jadwal kegiatan */
