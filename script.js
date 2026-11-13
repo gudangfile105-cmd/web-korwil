@@ -460,9 +460,17 @@ function urlAman(u) {
 
 /* --- Logo --- */
 async function muatLogo() {
+  if (!sb) return;
   const { data } = await sb.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
   const el = document.querySelector(".logo");
   if (!data?.value || !el) return;
+
+  // hapus ikon 🏫 bawaan (di mana pun posisinya di dalam .logo)
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    walker.currentNode.textContent = walker.currentNode.textContent.replace(/🏫\uFE0F?\s*/g, "");
+  }
+
   let img = el.querySelector(".logo-img");
   if (!img) {
     img = document.createElement("img");
