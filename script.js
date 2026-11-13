@@ -460,7 +460,7 @@ function urlAman(u) {
 
 /* --- Logo --- */
 async function muatLogo() {
-  const { data } = await db.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
+  const { data } = await sb.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
   const el = document.querySelector(".logo");
   if (!data?.value || !el) return;
   let img = el.querySelector(".logo-img");
@@ -478,10 +478,10 @@ async function uploadLogo(file) {
   if (file.size > 2 * 1024 * 1024) throw new Error("Ukuran maksimal 2 MB.");
   const ext = file.name.split(".").pop().toLowerCase();
   const path = `logo/logo-${Date.now()}.${ext}`;
-  const { error } = await db.storage.from(BUCKET).upload(path, file, { cacheControl: "3600" });
+  const { error } = await sb.storage.from(BUCKET).upload(path, file, { cacheControl: "3600" });
   if (error) throw error;
-  const { data } = db.storage.from(BUCKET).getPublicUrl(path);
-  const { error: e2 } = await db.from("site_settings").upsert({ key: "logo_url", value: data.publicUrl });
+  const { data } = sb.storage.from(BUCKET).getPublicUrl(path);
+  const { error: e2 } = await sb.from("site_settings").upsert({ key: "logo_url", value: data.publicUrl });
   if (e2) throw e2;
   return data.publicUrl;
 }
@@ -490,7 +490,7 @@ async function uploadLogo(file) {
 async function muatSosmed() {
   const foot = document.getElementById("kontak");
   if (!foot) return;
-  const { data } = await db.from("sosmed").select("*").order("urutan").order("id");
+  const { data } = await sb.from("sosmed").select("*").order("urutan").order("id");
   let box = foot.querySelector(".sosmed");
   if (!box) {
     box = document.createElement("div");
@@ -532,7 +532,7 @@ async function renderAdminExtra(box) {
   const q = s => box.querySelector(s);
 
   // preview logo saat ini
-  const { data: st } = await db.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
+  const { data: st } = await sb.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
   if (st?.value) { q("#prevLogo").src = st.value; q("#prevLogo").hidden = false; }
 
   q("#btnLogo").onclick = async () => {
@@ -550,7 +550,7 @@ async function renderAdminExtra(box) {
   async function muatDaftar() {
     const list = q("#listSosmed");
     list.replaceChildren();
-    const { data } = await db.from("sosmed").select("*").order("urutan").order("id");
+    const { data } = await sb.from("sosmed").select("*").order("urutan").order("id");
     (data || []).forEach(s => {
       const row = document.createElement("div");
       row.className = "sm-row";
@@ -562,13 +562,13 @@ async function renderAdminExtra(box) {
       simpan.onclick = async () => {
         const href = urlAman(u.value.trim());
         if (!n.value.trim() || !href) { q("#pesanSm").textContent = "Nama wajib diisi dan link harus diawali http:// atau https://"; return; }
-        const { error } = await db.from("sosmed").update({ nama: n.value.trim(), url: href }).eq("id", s.id);
+        const { error } = await sb.from("sosmed").update({ nama: n.value.trim(), url: href }).eq("id", s.id);
         q("#pesanSm").textContent = error ? "Gagal: " + error.message : "Tersimpan ✅";
         muatSosmed();
       };
       hapus.onclick = async () => {
         if (!confirm(`Hapus ${s.nama}?`)) return;
-        const { error } = await db.from("sosmed").delete().eq("id", s.id);
+        const { error } = await sb.from("sosmed").delete().eq("id", s.id);
         if (error) { q("#pesanSm").textContent = "Gagal: " + error.message; return; }
         muatDaftar(); muatSosmed();
       };
@@ -582,7 +582,7 @@ async function renderAdminExtra(box) {
     const nama = q("#smNama").value.trim();
     const href = urlAman(q("#smUrl").value.trim());
     if (!nama || !href) { q("#pesanSm").textContent = "Nama wajib diisi dan link harus diawali http:// atau https://"; return; }
-    const { error } = await db.from("sosmed").insert({ nama, url: href });
+    const { error } = await sb.from("sosmed").insert({ nama, url: href });
     if (error) { q("#pesanSm").textContent = "Gagal: " + error.message; return; }
     q("#smNama").value = ""; q("#smUrl").value = "";
     q("#pesanSm").textContent = "Ditambahkan ✅";
