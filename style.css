@@ -108,8 +108,13 @@ input[type=file]{padding:8px;background:var(--latar)}
 }
 .burger{display:none}
 
+.nav{flex-wrap:nowrap}
+.menu{margin-left:auto}
+.menu a{white-space:nowrap}
+.burger{display:none}
+
 @media (max-width:768px){
   .burger{display:block}
-  .menu{display:none;flex-direction:column;padding:0 18px 16px}
+  .menu{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--kuning);padding:0 18px 16px}
   .menu.open{display:flex}
 }
