@@ -65,8 +65,8 @@ const CONFIG = {
   profil: {
     judul: "Assalamuaikum",
     teks: [
-      "Korwil Pendidikan Kecamatan Rejoso adalah kantor yang mengoordinasikan SD di wilayah Kecamatan Rejoso, Kabupaten Nganjuk.",
-      "Kami membantu sekolah, guru, dan orang tua mendapat informasi, layanan, dan kegiatan pendidikan dengan lebih mudah."
+      "Operator Sekolah merupakan bagian penting dalam mendukung kelancaran administrasi dan pengelolaan data pendidikan di lingkungan satuan pendidikan. Dengan memanfaatkan teknologi informasi, Operator Sekolah berperan dalam memastikan pengelolaan data sekolah berjalan secara tertib, akurat, efektif, dan berkelanjutan.",
+      "Melalui website ini, kami berkomitmen untuk menghadirkan pusat informasi, dokumentasi, serta layanan administrasi sekolah yang informatif dan mudah diakses. Berbagai informasi dan kegiatan terkait pengelolaan data pendidikan, administrasi sekolah, pendataan peserta didik, tenaga pendidik dan kependidikan, serta informasi pendukung lainnya disajikan sebagai bentuk transparansi dan peningkatan kualitas pelayanan."
     ],
     gambar: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=70",
 
