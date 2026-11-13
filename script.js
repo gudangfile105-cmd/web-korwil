@@ -136,10 +136,10 @@ const CONFIG = {
 
   /* 13. KONTAK, SOSIAL MEDIA, FOOTER */
   kontak: {
-    alamat: "Jl. Raya Bojonegoro NO. 39 - Rejoso - Nganjuk",
-    telepon: "(isi nomor telepon kantor)",
-    email: "(isi email kantor)",
-    jam: "Senin–Jumat, 07.30–15.30 WIB"
+    alamat: "Di Atas Bumi Di Bawah Langit - Rejoso - Nganjuk",
+    telepon: "(-)",
+    email: "(opsroso01@gmail.com)",
+    jam: "Always Standby"
   },
   sosmed: [
     { nama: "Instagram", emoji: "📷", url: "https://instagram.com/" },
