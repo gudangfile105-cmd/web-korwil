@@ -471,7 +471,7 @@ async function muatLogo() {
     walker.currentNode.textContent = walker.currentNode.textContent.replace(/🏫\uFE0F?\s*/g, "");
   }
 
-  let img = el.querySelector(".logo-img");
+    let img = el.querySelector(".logo-img");
   if (!img) {
     img = document.createElement("img");
     img.className = "logo-img";
@@ -479,6 +479,19 @@ async function muatLogo() {
     el.prepend(img);
   }
   img.src = data.value;
+
+  // paksa susunan KIRI-KANAN: gambar di kiri, teks di kanan
+  el.style.display = "inline-flex";
+  el.style.flexDirection = "row";
+  el.style.flexWrap = "nowrap";
+  el.style.alignItems = "center";
+  el.style.gap = "8px";
+  el.style.width = "auto";
+  img.style.display = "inline-block";
+  img.style.height = "40px";
+  img.style.width = "auto";
+  img.style.margin = "0";
+  img.style.flex = "none";
 }
 
 async function uploadLogo(file) {
