@@ -514,10 +514,10 @@ async function muatSosmed() {
 async function renderAdminExtra(box) {
   box.replaceChildren();
   box.insertAdjacentHTML("beforeend", `
-    <h3>Logo situs</h3>
+      <h3>Logo situs</h3>
     <img id="prevLogo" class="logo-img" alt="" hidden>
-    <input type="file" id="fileLogo" accept="image/*">
-    <button type="button" id="btnLogo">Upload logo 📤</button>
+    <input id="urlLogo" placeholder="Tempel link gambar logo (https://...)">
+    <button type="button" id="btnLogo">Simpan logo 💾</button>
     <p id="pesanLogo"></p>
 
     <h3>Sosial media</h3>
@@ -535,16 +535,17 @@ async function renderAdminExtra(box) {
   const { data: st } = await sb.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
   if (st?.value) { q("#prevLogo").src = st.value; q("#prevLogo").hidden = false; }
 
+  q  if (st?.value) q("#urlLogo").value = st.value;
+
   q("#btnLogo").onclick = async () => {
-    const f = q("#fileLogo").files[0];
-    if (!f) { q("#pesanLogo").textContent = "Pilih file dulu."; return; }
-    q("#pesanLogo").textContent = "Mengunggah...";
-    try {
-      const url = await uploadLogo(f);
-      q("#prevLogo").src = url; q("#prevLogo").hidden = false;
-      q("#pesanLogo").textContent = "Logo berhasil diganti ✅";
-      muatLogo();
-    } catch (e) { q("#pesanLogo").textContent = "Gagal: " + e.message; }
+    const href = urlAman(q("#urlLogo").value.trim());
+    if (!href) { q("#pesanLogo").textContent = "Link harus diawali http:// atau https://"; return; }
+    q("#pesanLogo").textContent = "Menyimpan...";
+    const { error } = await sb.from("site_settings").upsert({ key: "logo_url", value: href });
+    if (error) { q("#pesanLogo").textContent = "Gagal: " + error.message; return; }
+    q("#prevLogo").src = href; q("#prevLogo").hidden = false;
+    q("#pesanLogo").textContent = "Logo berhasil disimpan ✅";
+    muatLogo();
   };
 
   async function muatDaftar() {
