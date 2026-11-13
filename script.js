@@ -593,3 +593,23 @@ async function renderAdminExtra(box) {
 muatLogo();
 muatSosmed();
 
+/* Pasang panel Logo & Sosmed di bawah kartu Ruang Admin */
+function pasangPanelExtra() {
+  const admin = document.getElementById("admin");
+  if (!admin || !sb) return;
+  if (document.getElementById("extraTampilan")) return;
+  // hanya tampil kalau admin sudah login (form admin sudah muncul)
+  if (!admin.querySelector("textarea, input[type=file]")) return;
+  const box = document.createElement("div");
+  box.id = "extraTampilan";
+  box.className = "panel";
+  box.style.marginTop = "20px";
+  admin.appendChild(box);
+  renderAdminExtra(box);
+}
+
+const adminEl = document.getElementById("admin");
+if (adminEl) {
+  new MutationObserver(pasangPanelExtra).observe(adminEl, { childList: true, subtree: true });
+}
+pasangPanelExtra();
