@@ -15,7 +15,7 @@ section{padding:56px 18px;max-width:1100px;margin:auto}
 .sticker{display:inline-block;background:var(--kuning);border:var(--b);border-radius:999px;padding:4px 14px;font-weight:800;font-size:.85rem;transform:rotate(-4deg);box-shadow:3px 3px 0 var(--gelap);margin-bottom:10px}
 /* Navbar */
 #navbar{position:sticky;top:0;z-index:50;background:var(--kuning);border-bottom:var(--b)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;max-width:1100px;margin:0}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;max-width:100%;margin:0}
 .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;text-decoration:none;font-size:1rem}
 .burger{background:#fff;border:var(--b);border-radius:12px;box-shadow:3px 3px 0 var(--gelap);padding:6px 12px;font-size:1.2rem;cursor:pointer}
 .menu{display:flex;flex-direction:row;gap:8px;padding:0;margin:0;list-style:none}
