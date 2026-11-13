@@ -447,3 +447,149 @@ async function loadRemote() {
   } catch (e) { console.warn("Gagal memuat data Supabase:", e.message || e); }
 }
 setup(); renderNav(); renderHero(); setupAll(); renderAdmin(); observe(); loadRemote();
+
+/* ===== FITUR LOGO & SOSMED ===== */
+const BUCKET = "aset";
+
+function urlAman(u) {
+  try {
+    const x = new URL(u);
+    return ["http:", "https:"].includes(x.protocol) ? x.href : null;
+  } catch { return null; }
+}
+
+/* --- Logo --- */
+async function muatLogo() {
+  const { data } = await db.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
+  const el = document.querySelector(".logo");
+  if (!data?.value || !el) return;
+  let img = el.querySelector(".logo-img");
+  if (!img) {
+    img = document.createElement("img");
+    img.className = "logo-img";
+    img.alt = "Logo";
+    el.prepend(img);
+  }
+  img.src = data.value;
+}
+
+async function uploadLogo(file) {
+  if (!file.type.startsWith("image/")) throw new Error("File harus berupa gambar.");
+  if (file.size > 2 * 1024 * 1024) throw new Error("Ukuran maksimal 2 MB.");
+  const ext = file.name.split(".").pop().toLowerCase();
+  const path = `logo/logo-${Date.now()}.${ext}`;
+  const { error } = await db.storage.from(BUCKET).upload(path, file, { cacheControl: "3600" });
+  if (error) throw error;
+  const { data } = db.storage.from(BUCKET).getPublicUrl(path);
+  const { error: e2 } = await db.from("site_settings").upsert({ key: "logo_url", value: data.publicUrl });
+  if (e2) throw e2;
+  return data.publicUrl;
+}
+
+/* --- Sosmed tampil di web (footer Kontak) --- */
+async function muatSosmed() {
+  const foot = document.getElementById("kontak");
+  if (!foot) return;
+  const { data } = await db.from("sosmed").select("*").order("urutan").order("id");
+  let box = foot.querySelector(".sosmed");
+  if (!box) {
+    box = document.createElement("div");
+    box.className = "sosmed";
+    foot.appendChild(box);
+  }
+  box.replaceChildren();
+  (data || []).forEach(s => {
+    const href = urlAman(s.url);
+    if (!href) return;
+    const a = document.createElement("a");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = s.nama;
+    box.appendChild(a);
+  });
+}
+
+/* --- Panel admin --- */
+async function renderAdminExtra(box) {
+  box.replaceChildren();
+  box.insertAdjacentHTML("beforeend", `
+    <h3>Logo situs</h3>
+    <img id="prevLogo" class="logo-img" alt="" hidden>
+    <input type="file" id="fileLogo" accept="image/*">
+    <button type="button" id="btnLogo">Upload logo 📤</button>
+    <p id="pesanLogo"></p>
+
+    <h3>Sosial media</h3>
+    <div id="listSosmed"></div>
+    <h4>Tambah baru</h4>
+    <input id="smNama" placeholder="Nama (mis. Instagram)">
+    <input id="smUrl" placeholder="https://instagram.com/akun">
+    <button type="button" id="btnTambahSm">Tambah ➕</button>
+    <p id="pesanSm"></p>
+  `);
+
+  const q = s => box.querySelector(s);
+
+  // preview logo saat ini
+  const { data: st } = await db.from("site_settings").select("value").eq("key", "logo_url").maybeSingle();
+  if (st?.value) { q("#prevLogo").src = st.value; q("#prevLogo").hidden = false; }
+
+  q("#btnLogo").onclick = async () => {
+    const f = q("#fileLogo").files[0];
+    if (!f) { q("#pesanLogo").textContent = "Pilih file dulu."; return; }
+    q("#pesanLogo").textContent = "Mengunggah...";
+    try {
+      const url = await uploadLogo(f);
+      q("#prevLogo").src = url; q("#prevLogo").hidden = false;
+      q("#pesanLogo").textContent = "Logo berhasil diganti ✅";
+      muatLogo();
+    } catch (e) { q("#pesanLogo").textContent = "Gagal: " + e.message; }
+  };
+
+  async function muatDaftar() {
+    const list = q("#listSosmed");
+    list.replaceChildren();
+    const { data } = await db.from("sosmed").select("*").order("urutan").order("id");
+    (data || []).forEach(s => {
+      const row = document.createElement("div");
+      row.className = "sm-row";
+      const n = document.createElement("input"); n.value = s.nama;
+      const u = document.createElement("input"); u.value = s.url;
+      const simpan = document.createElement("button"); simpan.type = "button"; simpan.textContent = "Simpan 💾";
+      const hapus = document.createElement("button"); hapus.type = "button"; hapus.textContent = "Hapus 🗑️";
+
+      simpan.onclick = async () => {
+        const href = urlAman(u.value.trim());
+        if (!n.value.trim() || !href) { q("#pesanSm").textContent = "Nama wajib diisi dan link harus diawali http:// atau https://"; return; }
+        const { error } = await db.from("sosmed").update({ nama: n.value.trim(), url: href }).eq("id", s.id);
+        q("#pesanSm").textContent = error ? "Gagal: " + error.message : "Tersimpan ✅";
+        muatSosmed();
+      };
+      hapus.onclick = async () => {
+        if (!confirm(`Hapus ${s.nama}?`)) return;
+        const { error } = await db.from("sosmed").delete().eq("id", s.id);
+        if (error) { q("#pesanSm").textContent = "Gagal: " + error.message; return; }
+        muatDaftar(); muatSosmed();
+      };
+      row.append(n, u, simpan, hapus);
+      list.appendChild(row);
+    });
+  }
+  await muatDaftar();
+
+  q("#btnTambahSm").onclick = async () => {
+    const nama = q("#smNama").value.trim();
+    const href = urlAman(q("#smUrl").value.trim());
+    if (!nama || !href) { q("#pesanSm").textContent = "Nama wajib diisi dan link harus diawali http:// atau https://"; return; }
+    const { error } = await db.from("sosmed").insert({ nama, url: href });
+    if (error) { q("#pesanSm").textContent = "Gagal: " + error.message; return; }
+    q("#smNama").value = ""; q("#smUrl").value = "";
+    q("#pesanSm").textContent = "Ditambahkan ✅";
+    muatDaftar(); muatSosmed();
+  };
+}
+
+muatLogo();
+muatSosmed();
+
