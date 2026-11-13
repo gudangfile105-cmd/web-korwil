@@ -615,6 +615,51 @@ async function renderAdminExtra(box) {
 muatLogo();
 muatSosmed();
 
+/* ===== PENGUNJUNG REALTIME ===== */
+let jumlahPengunjung = null;
+
+function tampilPengunjung() {
+  if (jumlahPengunjung === null) return;
+  const label = [...document.querySelectorAll("*")].find(
+    e => e.children.length === 0 && e.textContent.trim().toLowerCase() === "pengunjung web"
+  );
+  if (!label) return;
+  const angka = [...label.parentElement.querySelectorAll("*")].find(
+    e => e.children.length === 0 && /^[\d.,]+$/.test(e.textContent.trim())
+  );
+  const teks = Number(jumlahPengunjung).toLocaleString("id-ID");
+  if (angka && angka.textContent !== teks) angka.textContent = teks;
+}
+
+async function hitungPengunjung() {
+  if (!sb) return;
+  let baru = false;
+  try {
+    if (!sessionStorage.getItem("sudah_hitung")) {
+      baru = true;
+      sessionStorage.setItem("sudah_hitung", "1");
+    }
+  } catch (e) { baru = true; }
+
+  const { data, error } = await sb.rpc("hit_visitor", { baru });
+  if (error) { console.error("Pengunjung:", error.message); return; }
+  jumlahPengunjung = data;
+  tampilPengunjung();
+
+  // update langsung saat ada pengunjung lain
+  sb.channel("visitor-live")
+    .on("postgres_changes",
+        { event: "UPDATE", schema: "public", table: "visitor_stats" },
+        p => { jumlahPengunjung = p.new.total; tampilPengunjung(); })
+    .subscribe();
+
+  // kartu statistik bisa dirender ulang oleh script, pasang ulang angkanya
+  const profil = document.getElementById("profil");
+  if (profil) new MutationObserver(tampilPengunjung).observe(profil, { childList: true, subtree: true });
+}
+
+hitungPengunjung();
+
 /* Pasang panel Logo & Sosmed di bawah kartu Ruang Admin */
 function pasangPanelExtra() {
   const admin = document.getElementById("admin");
@@ -635,3 +680,5 @@ if (adminEl) {
   new MutationObserver(pasangPanelExtra).observe(adminEl, { childList: true, subtree: true });
 }
 pasangPanelExtra();
+
+
