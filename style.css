@@ -135,3 +135,9 @@ input[type=file]{padding:8px;background:var(--latar)}
 .cari-hapus{border:var(--b);background:var(--kuning);border-radius:999px;width:36px;height:36px;font-weight:800;cursor:pointer;padding:0}
 .cari-info{margin:10px 0 0;text-align:center;font-size:.9rem}
 [hidden]{display:none!important}
+
+.cari-wrap{width:min(255px,calc(100% - 36px))!important;margin:22px auto 34px!important;padding:0!important}
+.cari-box{height:58px!important;box-sizing:border-box!important;padding:0 6px 0 16px!important;font-size:1rem!important;gap:8px!important;box-shadow:4px 4px 0 var(--gelap)!important}
+#cariInput{height:100%!important;font-size:.92rem!important;padding:0 2px!important}
+.cari-hapus{width:28px!important;height:28px!important;font-size:.8rem!important;flex:none}
+.cari-info{margin:-18px 0 22px!important;text-align:center;font-size:.85rem}
