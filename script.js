@@ -681,4 +681,78 @@ if (adminEl) {
 }
 pasangPanelExtra();
 
+/* ===== KOLOM PENCARIAN ===== */
+(function () {
+  const BAGIAN = ["informasi", "pengumuman", "galeri"];
+  const beranda = document.getElementById("beranda");
+  if (!beranda || document.getElementById("cariWrap")) return;
 
+  const wrap = document.createElement("div");
+  wrap.id = "cariWrap";
+  wrap.className = "cari-wrap";
+  wrap.innerHTML = `
+    <div class="cari-box">
+      <span aria-hidden="true">🔍</span>
+      <input id="cariInput" type="search" placeholder="Cari informasi, pengumuman, atau galeri..." autocomplete="off" aria-label="Cari">
+      <button type="button" id="cariHapus" class="cari-hapus" aria-label="Hapus pencarian" hidden>✕</button>
+    </div>
+    <p id="cariInfo" class="cari-info" hidden></p>
+  `;
+  beranda.after(wrap);
+
+  const input = document.getElementById("cariInput");
+  const hapus = document.getElementById("cariHapus");
+  const info = document.getElementById("cariInfo");
+
+  function itemBagian(sec) {
+    const semua = [...sec.querySelectorAll(".card, .grid > *, .bento > *, article, figure, li")];
+    return semua.filter(e => !semua.some(o => o !== e && o.contains(e)));
+  }
+
+  function cari() {
+    const q = input.value.trim().toLowerCase();
+    hapus.hidden = !q;
+    let total = 0;
+
+    BAGIAN.forEach(id => {
+      const sec = document.getElementById(id);
+      if (!sec) return;
+      const items = itemBagian(sec);
+      let cocok = 0;
+      items.forEach(el => {
+        const ok = !q || el.textContent.toLowerCase().includes(q) ||
+          [...el.querySelectorAll("img")].some(i => (i.alt || "").toLowerCase().includes(q));
+        el.hidden = !ok;
+        if (ok) cocok++;
+      });
+      // sembunyikan seluruh bagian kalau tidak ada yang cocok
+      sec.hidden = !!q && items.length > 0 && cocok === 0;
+      total += cocok;
+    });
+
+    if (!q) { info.hidden = true; return; }
+    info.hidden = false;
+    info.textContent = total
+      ? `Ditemukan ${total} hasil untuk “${input.value.trim()}”`
+      : `Tidak ditemukan untuk “${input.value.trim()}” 😢 Coba kata kunci lain.`;
+  }
+
+  let t;
+  input.addEventListener("input", () => { clearTimeout(t); t = setTimeout(cari, 120); });
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const pertama = BAGIAN.map(id => document.getElementById(id))
+        .find(s => s && !s.hidden && s.offsetParent !== null);
+      if (pertama && input.value.trim()) pertama.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+  hapus.addEventListener("click", () => { input.value = ""; cari(); input.focus(); });
+
+  // kalau isi bagian dirender ulang (mis. setelah admin menyimpan), terapkan lagi filternya
+  BAGIAN.forEach(id => {
+    const sec = document.getElementById(id);
+    if (sec) new MutationObserver(() => { if (input.value.trim()) cari(); })
+      .observe(sec, { childList: true });
+  });
+})();
