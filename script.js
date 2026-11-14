@@ -48,8 +48,8 @@ const CONFIG = {
 
   /* 6. TEKS BERJALAN (MARQUEE) — tambah/kurangi sesuka hati */
   marquee: [
-    "💻 Salam Satu Data", "📚 Agenda ", "📸 Dokumentasi",
-    "🤝 Senergi",
+    "💻 Salam Satu Data", "📚 DAPODIK ", "🏫 SARPRAS",
+    "📢 TKA",
   ],
 
   /* 7. JUDUL TIAP BAGIAN */
