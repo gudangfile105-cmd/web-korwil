@@ -693,7 +693,7 @@ pasangPanelExtra();
   wrap.innerHTML = `
     <div class="cari-box">
       <span aria-hidden="true">🔍</span>
-      <input id="cariInput" type="search" placeholder="Cari informasi, pengumuman, atau galeri..." autocomplete="off" aria-label="Cari">
+      <input id="cariInput" type="search" placeholder="Cari informasi..." autocomplete="off" aria-label="Cari">
       <button type="button" id="cariHapus" class="cari-hapus" aria-label="Hapus pencarian" hidden>✕</button>
     </div>
     <p id="cariInfo" class="cari-info" hidden></p>
