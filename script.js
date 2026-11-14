@@ -756,3 +756,20 @@ pasangPanelExtra();
       .observe(sec, { childList: true });
   });
 })();
+
+/* ===== KARTU STATISTIK: 3 PERSEGI SEJAJAR ===== */
+(function () {
+  const prof = document.getElementById("profil");
+  if (!prof) return;
+  function rapikanStat() {
+    const angka = [...prof.querySelectorAll("*")].filter(
+      e => e.children.length === 0 && /^[\d.,]+$/.test(e.textContent.trim())
+    ).slice(0, 3);
+    if (angka.length < 3) return;
+    let box = angka[0].parentElement;
+    while (box && !angka.every(a => box.contains(a))) box = box.parentElement;
+    if (box && box !== prof && !box.classList.contains("stat-row")) box.classList.add("stat-row");
+  }
+  rapikanStat();
+  new MutationObserver(rapikanStat).observe(prof, { childList: true, subtree: true });
+})();
