@@ -766,9 +766,24 @@ pasangPanelExtra();
       e => e.children.length === 0 && /^[\d.,]+$/.test(e.textContent.trim())
     ).slice(0, 3);
     if (angka.length < 3) return;
+
     let box = angka[0].parentElement;
     while (box && !angka.every(a => box.contains(a))) box = box.parentElement;
-    if (box && box !== prof && !box.classList.contains("stat-row")) box.classList.add("stat-row");
+    if (!box || box === prof || box.classList.contains("stat-row")) return;
+
+    // ambil kartu masing-masing angka (anak langsung dari wadah bersama)
+    const kartu = angka.map(a => {
+      let k = a;
+      while (k.parentElement && k.parentElement !== box) k = k.parentElement;
+      return k;
+    });
+    if (new Set(kartu).size !== 3) return;
+
+    // bungkus HANYA tiga kartu statistik, kartu lain tidak disentuh
+    const row = document.createElement("div");
+    row.className = "stat-row";
+    box.insertBefore(row, kartu[0]);
+    kartu.forEach(k => row.appendChild(k));
   }
   rapikanStat();
   new MutationObserver(rapikanStat).observe(prof, { childList: true, subtree: true });
