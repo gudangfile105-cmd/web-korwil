@@ -142,9 +142,9 @@ input[type=file]{padding:8px;background:var(--latar)}
 .cari-hapus{width:28px!important;height:28px!important;font-size:.8rem!important;flex:none}
 .cari-info{margin:-18px 0 22px!important;text-align:center;font-size:.85rem}
 
-.stat-row{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:10px!important}
+.stat-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stat-row>*{aspect-ratio:1/1;min-width:0;padding:10px!important;display:flex!important;flex-direction:column;justify-content:center;align-items:flex-start;overflow:hidden;border-radius:18px!important;box-shadow:3px 3px 0 var(--gelap)!important}
 .stat-row>*>:nth-child(1){font-size:1.1rem!important;line-height:1}
 .stat-row>*>:nth-child(2){font-size:clamp(1.3rem,6vw,1.9rem)!important;line-height:1.1;margin:4px 0 2px!important}
 .stat-row>*>:nth-child(3){font-size:clamp(.62rem,2.8vw,.8rem)!important;line-height:1.2;overflow-wrap:anywhere}
-@media (min-width:700px){.stat-row>*{max-width:200px}.stat-row{justify-content:start}}
+@media (min-width:700px){.stat-row{grid-template-columns:repeat(3,200px);justify-content:start}}
