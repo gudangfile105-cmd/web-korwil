@@ -137,8 +137,8 @@ const CONFIG = {
   /* 13. KONTAK, SOSIAL MEDIA, FOOTER */
   kontak: {
     alamat: "Di Atas Bumi Di Bawah Langit - Rejoso - Nganjuk",
-    telepon: "(-)",
-    email: "(opsroso01@gmail.com)",
+    telepon: "-",
+    email: "opsroso01@gmail.com",
     jam: "Always Standby"
   },
   sosmed: [
