@@ -146,7 +146,7 @@ const CONFIG = {
     { nama: "Facebook", emoji: "👍", url: "https://facebook.com/" },
     { nama: "YouTube", emoji: "▶️", url: "https://youtube.com/" }
   ],
-  footerTeks: "Dibuat dengan 💜 untuk pendidikan Rejoso."
+  footerTeks: "Design By Creator"
 };
 
 /* =====================================================================
